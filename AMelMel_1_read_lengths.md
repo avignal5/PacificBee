@@ -2,11 +2,14 @@
 
 <!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
 
+- [Sequencing a single drone](#sequencing-a-single-drone)   
 - [Extract read lengths for the 36 SMRTcells:](#extract-read-lengths-for-the-36-smrtcells)   
 - [Plot read lengths: 36 SMRTcells separately](#plot-read-lengths-36-smrtcells-separately)   
 - [Plot read lengths: all reads from the 36 SMRTcells together](#plot-read-lengths-all-reads-from-the-36-smrtcells-together)   
 
 <!-- /MDTOC -->
+
+## Sequencing a single drone
 
 * DNA fgrom a single drone was purified to perform 3 libraries.
 * Using SMRTBell template Prep Kit 1.0 (PacBio), a DNA and END damage repair step was performed on 15µg of unsheared sample. Then blunt hairpin adapters were ligated to the libraries. The libraries were treated with an exonuclease cocktail to digest unligated DNA fragments.
