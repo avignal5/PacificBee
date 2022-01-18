@@ -1,19 +1,18 @@
 # Assembly
 
-<!-- MDTOC maxdepth:6 firsth1:1 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
 
-- [Assembly](#assembly)   
-   - [1. Assembly of reads into contigs](#1-assembly-of-reads-into-contigs)   
-   - [2. From contigs to chromosomes with a genetic map](#2-from-contigs-to-chromosomes-with-a-genetic-map)   
-      - [2.1. Download fastq from SRA](#21-download-fastq-from-sra)   
-         - [2.1.1 datasheet (supplementary table 2)](#211-datasheet-supplementary-table-2)   
-         - [2.1.2. Download SRA data, validate download and write fastq](#212-download-sra-data-validate-download-and-write-fastq)   
-      - [2.2. Map reads to the contigs](#22-map-reads-to-the-contigs)   
-         - [Script for mapping:](#script-for-mapping)   
-      - [2.3. Individual genotyping](#23-individual-genotyping)   
-      - [2.4. Joint genotyping](#24-joint-genotyping)   
-      - [2.5. Quality filters on variants](#25-quality-filters-on-variants)   
-      - [Filter out any SNP or indel with missing genotype](#filter-out-any-snp-or-indel-with-missing-genotype)   
+- [1. Assembly of reads into contigs](#1-assembly-of-reads-into-contigs)   
+- [2. From contigs to chromosomes with a genetic map](#2-from-contigs-to-chromosomes-with-a-genetic-map)   
+   - [2.1. Download fastq from SRA](#21-download-fastq-from-sra)   
+      - [2.1.1 datasheet (supplementary table 2)](#211-datasheet-supplementary-table-2)   
+      - [2.1.2. Download SRA data, validate download and write fastq](#212-download-sra-data-validate-download-and-write-fastq)   
+   - [2.2. Map reads to the contigs](#22-map-reads-to-the-contigs)   
+      - [Script for mapping:](#script-for-mapping)   
+   - [2.3. Individual genotyping](#23-individual-genotyping)   
+   - [2.4. Joint genotyping](#24-joint-genotyping)   
+   - [2.5. Quality filters on variants](#25-quality-filters-on-variants)   
+   - [Filter out any SNP or indel with missing genotype](#filter-out-any-snp-or-indel-with-missing-genotype)   
 
 <!-- /MDTOC -->
 
