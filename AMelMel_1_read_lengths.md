@@ -1,5 +1,7 @@
 # Estimate read lengths
 
+[TOC]
+
 * DNA fgrom a single drone was purified to perform 3 libraries.
 * Using SMRTBell template Prep Kit 1.0 (PacBio), a DNA and END damage repair step was performed on 15µg of unsheared sample. Then blunt hairpin adapters were ligated to the libraries. The libraries were treated with an exonuclease cocktail to digest unligated DNA fragments.
 * A size selection step using a 7kb (Library 1 "PacificBee") or 9kb (libraries 2 "Abeille1" and 3 "Abeille2") 
