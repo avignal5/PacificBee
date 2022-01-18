@@ -1,10 +1,16 @@
 # Estimate read lengths
 
-[TOC]
+<!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
+
+- [Extract read lengths for the 36 SMRTcells:](#extract-read-lengths-for-the-36-smrtcells)   
+- [Plot read lengths: 36 SMRTcells separately](#plot-read-lengths-36-smrtcells-separately)   
+- [Plot read lengths: all reads from the 36 SMRTcells together](#plot-read-lengths-all-reads-from-the-36-smrtcells-together)   
+
+<!-- /MDTOC -->
 
 * DNA fgrom a single drone was purified to perform 3 libraries.
 * Using SMRTBell template Prep Kit 1.0 (PacBio), a DNA and END damage repair step was performed on 15µg of unsheared sample. Then blunt hairpin adapters were ligated to the libraries. The libraries were treated with an exonuclease cocktail to digest unligated DNA fragments.
-* A size selection step using a 7kb (Library 1 "PacificBee") or 9kb (libraries 2 "Abeille1" and 3 "Abeille2") 
+* A size selection step using a 7kb (Library 1 "PacificBee") or 9kb (libraries 2 "Abeille1" and 3 "Abeille2")
 * SMRTbell libraries were sequenced on 36 SMRTcells on RSII instrument
 
 ## Extract read lengths for the 36 SMRTcells:
@@ -74,14 +80,14 @@ for xi in range(ybins):
         plt.setp(ax[xi,yi].get_xticklabels(), visible=False)
         plt.setp(ax[xi,yi].get_yticklabels(), visible=False)
 
-#Import the data and plot histograms       
+#Import the data and plot histograms
 count = 0
 for yi in range(ybins):
     for xi in range(xbins):
         path = readLengthsList[count].split('/')
         run_smrt_lib1 = path[7].split('.')[0]
         run_smrt_lib2 = run_smrt_lib1.split("_")
-        run_smrt_lib3 = run_smrt_lib2[1] + "\n" + run_smrt_lib2[2] + "\n" + run_smrt_lib2[3]     
+        run_smrt_lib3 = run_smrt_lib2[1] + "\n" + run_smrt_lib2[2] + "\n" + run_smrt_lib2[3]
         data=pd.read_csv(readLengthsList[count], names=['Length'])
         lengthsList = data['Length']
         ax[xi,yi].hist(lengthsList,bins=zbins)
