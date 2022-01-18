@@ -136,7 +136,7 @@ axins.set_xticks(major_ticks)
 axins.set_xlabel('read length (bp)')
 ```
 
-![](AMelMel_1_red_lengths.assets/ReadLengthPerRun.png)
+![](AMelMel_1_read_lengths.assets/ReadLengthPerRun.png)
 
 ## Plot read lengths: all reads from the 36 SMRTcells together
 
@@ -192,6 +192,6 @@ grid.arrange(P1,P2,P3,P4, ncol = 2, top = "All 36 SMRTcells")
 dev.off()
 ```
 
-![](AMelMel_1_red_lengths.assets/PlotSizeDistribAll36SMRT.png)
+![](AMelMel_1_read_lengths.assets/PlotSizeDistribAll36SMRT.png)
 
 Top left: all size ranges; top right: reads > 20 kb; bottom left: reads > 55kb; bottom right: reads < 10 kb
