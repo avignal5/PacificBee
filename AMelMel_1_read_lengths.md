@@ -7,7 +7,7 @@
 
 ## Extract read lengths for the 36 SMRTcells:
 
-```
+```python
 #!/usr/bin/env python3
 # -*- coding: Utf-8 -*-
 
@@ -32,9 +32,9 @@ for i in fastqList:
 * Produces 36 files: single columns with read lengths
 * Copied in /Users/avignal/Documents/Stats/2016_PacificBee/ReadLength
 
-## Plot read lengths
+## Plot read lengths: 36 SMRTcells separately
 
-```
+```python
 import csv
 import pandas as pd
 import numpy as np
@@ -136,3 +136,62 @@ axins.set_xticks(major_ticks)
 axins.set_xlabel('read length (bp)')
 ```
 
+![](AMelMel_1_red_lengths.assets/ReadLengthPerRun.png)
+
+## Plot read lengths: all reads from the 36 SMRTcells together
+
+* Concatenate all read lengths together
+
+```bash
+cat *.txt > allRuns.lengths
+```
+
+* Plot read lengths
+
+```R
+library(ggplot2)
+library(dplyr)
+library(grid)
+library(gridExtra)
+
+reads = read.csv("/Users/avignal/Documents/Stats/2016_PacificBee/ReadLength/allRuns.lengths", header = F)
+
+png("/Users/avignal/Documents/Stats/2016_PacificBee/ReadLength/PlotSizeDistribAll36SMRT.png", width = 29, height = 21, units = "cm", res = 300)
+
+P1 = ggplot(data = reads, aes(reads$V1)) +
+    geom_histogram(binwidth=1000, color = "black", fill = "red") +
+    xlab ("Length (bp)") +
+    ylab ("Count Reads") +
+    ggtitle ("All, bin = 1000 bp")
+
+readsLong = as.data.frame(reads[reads$V1 > 20000,])
+colnames(readsLong) = c("V1")
+P2 = ggplot(data = readsLong, aes(readsLong$V1))+
+    geom_histogram(binwidth=1000, color = "black", fill = "red") +
+    xlab ("Length (bp)") +
+    ylab ("Count Reads") +
+    ggtitle ("Long, bin = 1000 bp")
+
+readsVeryLong = as.data.frame(reads[reads$V1 > 55000,])
+colnames(readsVeryLong) = c("V1")
+P3 = ggplot(data = readsVeryLong, aes(readsVeryLong$V1))+
+    geom_histogram(binwidth=1000, color = "black", fill = "red") +
+    xlab ("Length (bp)") +
+    ylab ("Count Reads")  +
+    ggtitle ("Verylong, bin = 1000 bp")
+
+readsShort = as.data.frame(reads[reads$V1 < 10000,])
+colnames(readsShort) = c("V1")
+P4 = ggplot(data = readsShort, aes(readsShort$V1))+
+    geom_histogram(binwidth=100, color = "black", fill = "red") +
+    xlab ("Length (bp)") +
+    ylab ("Count Reads")  +
+    ggtitle ("Short, bin = 100 bp")
+grid.arrange(P1,P2,P3,P4, ncol = 2, top = "All 36 SMRTcells")
+
+dev.off()
+```
+
+![](AMelMel_1_red_lengths.assets/PlotSizeDistribAll36SMRT.png)
+
+Top left: all size ranges; top right: reads > 20 kb; bottom left: reads > 55kb; bottom right: reads < 10 kb
