@@ -13,8 +13,8 @@ Edit the name of the file with the contig order.
 """
 ################ EDITS #######################
 path_to_fasta = '/home/gencel/vignal/save/Genomes/Abeille/PacificBee/BlackBee_genome.AllAlternative.NoMultipleAllele.fasta' #fasta file containing the contigs
-file_contig_order_orientation = '/home/gencel/vignal/save/Genomes/Abeille/PacificBee/assemblingV2/combined_infoV2.txt' #file with the contig order: chromosome(int), order(int), contigName, orientation (+ or -)
-nb_ns = 10000 #number of N to insert between contigs
+file_contig_order_orientation = '/home/gencel/vignal/save/Genomes/Abeille/PacificBee/assemblingV2/combined_infoV2MT.txt' #file with the contig order: chromosome(int), order(int), contigName, orientation (+ or -)
+nb_ns = 100 #number of N to insert between contigs
 ################ END EDITS ###################
 
 import argparse
@@ -59,13 +59,18 @@ with open(file_contig_order_orientation, newline='') as csvFile:
 			unplacedBase[int(row[0])] = row[1]
 		elif re.match("\AUn\d",row[35]):	#Unlocalized: name = UnXX
 			unlocalizedBase[row[35]][int(row[0])] = (row[1])
+#		elif re.match("\AMT\Z",row[35]):	#Mitochondria: name = MT
+#			chrBase[int(row[35])][int(row[36])] = (row[1], row[38]) #Assign contig name and orientation to chromosome number and order
 
 """
 Print assembled chromosomes agp files
 """
 chrList = sorted(list(chrBase.keys()))
 for chromosome in chrList:
-	chrom = "".join(("chr", str(chromosome)))
+	if chromosome == 17:
+			chrom = "MT"
+	else:
+		chrom = "".join(("LG", str(chromosome)))
 	orderList = sorted(list(chrBase[chromosome].keys()))
 	count = 1
 	start = 0
@@ -81,7 +86,7 @@ for chromosome in chrList:
 		start = end + 1
 		end = end + nb_ns
 		if (count / 2) < len(orderList):
-			spacingNs = (chrom,str(start),str(end),str(count),"U",str(nb_ns),"contig","yes","map")
+			spacingNs = (chrom,str(start),str(end),str(count),"U",str(nb_ns),"scaffold","yes","map")
 			print ("\t".join(spacingNs), file = fileOut)
 			count = count + 1
 
@@ -90,7 +95,7 @@ Print Unlocalized contigs agp files (known chromosome, but unknown location)
 """
 chrList = sorted(list(unlocalizedBase.keys()))
 for chromosome in chrList:
-	chrom = "".join(("chr", chromosome))
+	chrom = "".join(("LG_", chromosome))
 	orderList = sorted(list(unlocalizedBase[chromosome].keys()))
 	count = 1
 	start = 0
