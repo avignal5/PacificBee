@@ -130,7 +130,7 @@ Print sequences files in fasta format
 chrList = sorted(list(chrBase.keys()))
 toInsertNs = 'N' * nb_ns
 for chromosome in chrList:
-	chrom = "".join(("chr", str(chromosome)))
+	chrom = "".join(("LG", str(chromosome)))
 	orderList = sorted(list(chrBase[chromosome].keys()))
 	count = 1
 	chrSequence = ""
@@ -172,7 +172,7 @@ with open('chrUnknown.fa', 'w') as fout:
 #Unlocalized
 chrList = sorted(list(unlocalizedBase.keys()))
 for chromosome in chrList:
-	chrom = "".join(("chr", chromosome))
+	chrom = "".join(("LG", chromosome))
 	orderList = sorted(list(unlocalizedBase[chromosome].keys()))
 	fileName = 'AMelMelPacBio_' + chrom + '.fa'
 	with open(fileName, 'w') as fout:
