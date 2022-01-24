@@ -1,0 +1,17 @@
+LinkageGroup	GenBankHAV3_1_psl	AMelMel_psl	HAv3.1_legend	AMelMel_legend	
+LG1	NC_037638.1	LG1	HAv3.1 chromosome 1 (Mb)	AMelMel1.1 chromosome 1 (Mb)
+LG2	NC_037639.1	LG2	HAv3.1 chromosome 2 (Mb)	AMelMel1.1 chromosome 2 (Mb
+LG3	NC_037640.1	LG3	HAv3.1 chromosome 3 (Mb)	AMelMel1.1 chromosome 3 (Mb)
+LG4	NC_037641.1	LG4	HAv3.1 chromosome 4 (Mb)	AMelMel1.1 chromosome 4 (Mb)
+LG5	NC_037642.1	LG5	HAv3.1 chromosome 5 (Mb)	AMelMel1.1 chromosome 5 (Mb)
+LG6	NC_037643.1	LG6	HAv3.1 chromosome 6 (Mb)	AMelMel1.1 chromosome 6 (Mb)
+LG7	NC_037644.1	LG7	HAv3.1 chromosome 7 (Mb)	AMelMel1.1 chromosome 7 (Mb)
+LG8	NC_037645.1	LG8	HAv3.1 chromosome 8 (Mb)	AMelMel1.1 chromosome 8 (Mb)
+LG9	NC_037646.1	LG9	HAv3.1 chromosome 9 (Mb)	AMelMel1.1 chromosome 9 (Mb)
+LG10	NC_037647.1	LG10	HAv3.1 chromosome 10 (Mb)	AMelMel1.1 chromosome 10 (Mb)
+LG11	NC_037648.1	LG11	HAv3.1 chromosome 11 (Mb)	AMelMel1.1 chromosome 11 (Mb)
+LG12	NC_037649.1	LG12	HAv3.1 chromosome 12 (Mb)	AMelMel1.1 chromosome 12 (Mb)
+LG13	NC_037650.1	LG13	HAv3.1 chromosome 13 (Mb)	AMelMel1.1 chromosome 13 (Mb)
+LG14	NC_037651.1	LG14	HAv3.1 chromosome 14 (Mb)	AMelMel1.1 chromosome 14 (Mb)
+LG15	NC_037652.1	LG15	HAv3.1 chromosome 15 (Mb)	AMelMel1.1 chromosome 15 (Mb)
+LG16	NC_037653.1	LG16	HAv3.1 chromosome 16 (Mb)	AMelMel1.1 chromosome 16 (Mb)

@@ -2,19 +2,19 @@
 
 <!-- MDTOC maxdepth:6 firsth1:0 numbering:0 flatten:0 bullets:1 updateOnSave:1 -->
 
-- [1. Assembly of PacBio reads into contigs](#1-assembly-of-pacbio-reads-into-contigs)   
-- [2. Detecting SNPs for the genetic map](#2-detecting-snps-for-the-genetic-map)   
-   - [2.1. Download fastq from SRA](#21-download-fastq-from-sra)   
-      - [2.1.1 datasheet (supplementary table 2)](#211-datasheet-supplementary-table-2)   
-      - [2.1.2. Download SRA data, validate download and write fastq](#212-download-sra-data-validate-download-and-write-fastq)   
-   - [2.2. Map reads to the contigs](#22-map-reads-to-the-contigs)   
-      - [Script for mapping:](#script-for-mapping)   
-   - [2.3. Individual genotyping](#23-individual-genotyping)   
-   - [2.4. Joint genotyping](#24-joint-genotyping)   
-   - [2.5. Quality filters on variants](#25-quality-filters-on-variants)   
-   - [Filter out any SNP or indel with missing genotype](#filter-out-any-snp-or-indel-with-missing-genotype)   
-- [3. Order and orient contigs by minimizing recombination between contig ends](#3-order-and-orient-contigs-by-minimizing-recombination-between-contig-ends)   
-- [4 Generate agp files for submission to databank and chromosome-level fasta files](#4-generate-agp-files-for-submission-to-databank-and-chromosome-level-fasta-files)   
+- [1. Assembly of PacBio reads into contigs](#1-assembly-of-pacbio-reads-into-contigs)
+- [2. Detecting SNPs for the genetic map](#2-detecting-snps-for-the-genetic-map)
+   - [2.1. Download fastq from SRA](#21-download-fastq-from-sra)
+      - [2.1.1 datasheet (supplementary table 2)](#211-datasheet-supplementary-table-2)
+      - [2.1.2. Download SRA data, validate download and write fastq](#212-download-sra-data-validate-download-and-write-fastq)
+   - [2.2. Map reads to the contigs](#22-map-reads-to-the-contigs)
+      - [Script for mapping:](#script-for-mapping)
+   - [2.3. Individual genotyping](#23-individual-genotyping)
+   - [2.4. Joint genotyping](#24-joint-genotyping)
+   - [2.5. Quality filters on variants](#25-quality-filters-on-variants)
+   - [Filter out any SNP or indel with missing genotype](#filter-out-any-snp-or-indel-with-missing-genotype)
+- [3. Order and orient contigs by minimizing recombination between contig ends](#3-order-and-orient-contigs-by-minimizing-recombination-between-contig-ends)
+- [4 Generate agp files for submission to databank and chromosome-level fasta files](#4-generate-agp-files-for-submission-to-databank-and-chromosome-level-fasta-files)
 
 <!-- /MDTOC -->
 
@@ -22,7 +22,7 @@
 
 * Raw PacBio reads from the single individual were assembled with Canu 1.3 (Koren *et al.* 2017) using standard parameters
 * a first polishing of the assembly was done with quiver (version SMRT_Link v4.0.0) (https://github.com/PacificBiosciences/GenomicConsensus) using standard parameters.
-* Error correction was then performed with Illumina reads from the same individual sequenced with an Illumina NovaSeq6000 instrument, producing over 28 000 000 reads (estimated raw sequencing depth = 33.7 X).
+* Error correction was then performed with Illumina reads from the same individual sequenced with an Illumina NovaSeq6000 instrument, producing over 28 000 000 reads (estimated raw sequencing depth = 33.7 X). Corrections to the genome assembly were done when high confidence alternative alleles were found.
 * Contigs were then assigned to chromosomes by alignment to the Amel4.5 reference genome using LAST (Frith and Kawaguchi 2015).
 
 ## 2. Detecting SNPs for the genetic map

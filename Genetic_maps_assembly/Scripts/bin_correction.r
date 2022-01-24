@@ -1,0 +1,283 @@
+################################################
+### script to correct bins
+################################################
+#!/usr/bin/env R
+args<-commandArgs(TRUE)
+nb_colony<-as.numeric(args[1])
+kb<-as.numeric(args[2])
+pattern<-args[3]
+options(warn=2)
+
+if(nb_colony>1){
+	for(c in 1:nb_colony){
+		print(paste0('colony ',c))
+		filenames<-list.files(paste(pattern,c,'/bin_initial',sep=''),pattern='*.txt',full.names=T)
+		for (f in 1:length(filenames)){
+			bin_ini<-read.table(filenames[f],header=T,sep=',',colClasses=c('numeric','numeric','character','character','numeric','character','numeric','character'))	
+			cont<-as.numeric(bin_ini$group[1])
+			print(paste('contig ',cont))
+			print(paste('initial number bins: ',nrow(bin_ini)))
+			bin_remade<-bin_ini
+			binsmall<-which(bin_remade$physical_length<kb)
+				if(nrow(bin_remade)>1){
+					while(length(binsmall)>0){
+						if(binsmall[1]==nrow(bin_remade)){
+							bs<-bin_remade[binsmall[1],]
+							bsa<-bin_remade[binsmall[1]-1,]
+							r1<-0
+							r2<-0
+							vk<-bsa$vector0
+							vm<-bs$vector0
+							vn<-bs$vector1
+							for (k in 1:nchar(vk)){
+								if(substr(vk,k,k)!=substr(vm,k,k)){r1<-r1+1}
+								if(substr(vk,k,k)!=substr(vn,k,k)){r2<-r2+1}
+							}
+							ra<-min(r1,r2)
+							if(ra>4){
+								madd<-paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin'])
+								mi<-unlist(strsplit(bsa[,'list_markers'],','))
+								mark<-gsub('/.*','',c(mi,madd))
+								pl<-max(as.numeric(mark))-min(as.numeric(mark))
+								bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+								bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+								bin_remade[binsmall[1]-1,'physical_length']<-pl
+								bin_remade<-bin_remade[-binsmall[1],]
+								binsmall<-which(bin_remade$physical_length<kb)
+							}else{binsmall<-NULL}
+						}else if(binsmall[1]==1){
+							bs<-bin_remade[binsmall[1],]
+							bsb<-bin_remade[binsmall[1]+1,]
+							r1<-0
+							r2<-0
+							vk<-bs$vector0
+							vm<-bsb$vector0
+							vn<-bsb$vector1
+							for (k in 1:nchar(vk)){
+								if(substr(vk,k,k)!=substr(vm,k,k)){r1<-r1+1}
+								if(substr(vk,k,k)!=substr(vn,k,k)){r2<-r2+1}
+							}
+							rb<-min(r1,r2)
+							if(rb>4){
+								madd<-paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin'])
+								mi<-unlist(strsplit(bs[,'list_markers'],','))
+								mark<-gsub('/.*','',c(mi,madd))
+								pl<-max(as.numeric(mark))-min(as.numeric(mark))
+								bin_remade[binsmall[1],'list_markers']<-paste0(c(mi,madd),collapse=',')
+								bin_remade[binsmall[1],'nb_markers']<-length(mark)
+								bin_remade[binsmall[1],'physical_length']<-pl
+								bin_remade<-bin_remade[-binsmall[1]+1,]
+								binsmall<-which(bin_remade$physical_length<kb)
+							}else{binsmall<-NULL}
+						}else{	
+							bs<-bin_remade[binsmall[1],]
+							bsa<-bin_remade[binsmall[1]-1,]
+							bsb<-bin_remade[binsmall[1]+1,]
+							r1<-0
+							r2<-0
+							r3<-0
+							r4<-0
+							vj<-bsa$vector0
+							vk<-bs$vector0
+							vl<-bs$vector1
+							vm<-bsb$vector0
+							vn<-bsb$vector1
+							for (k in 1:nchar(vj)){
+								if(substr(vj,k,k)!=substr(vk,k,k)){r1<-r1+1}
+								if(substr(vj,k,k)!=substr(vl,k,k)){r2<-r2+1}
+								if(substr(vj,k,k)!=substr(vm,k,k)){r3<-r3+1}
+								if(substr(vj,k,k)!=substr(vn,k,k)){r4<-r4+1}
+							}
+							ra<-min(r1,r2)
+							rb<-min(r3,r4)
+							if(bsa$vector0==bsb$vector0 | bsa$vector0==bsb$vector1){
+								madd<-c(paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin']),paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin']))
+								mi<-unlist(strsplit(bsa[,'list_markers'],','))
+								mark<-gsub('/.*','',c(mi,madd))
+								pl<-max(as.numeric(mark))-min(as.numeric(mark))
+								bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+								bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+								bin_remade[binsmall[1]-1,'physical_length']<-pl
+								bin_remade<-bin_remade[-c(binsmall[1],binsmall[1]+1),]
+								binsmall<-which(bin_remade$physical_length<kb)
+							}else if (bsa$vector0!=bsb$vector0 & bsa$vector0!=bsb$vector1 &ra>rb){
+								madd<-paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin'])
+								mi<-unlist(strsplit(bsa[,'list_markers'],','))
+								mark<-gsub('/.*','',c(mi,madd))
+								pl<-max(as.numeric(mark))-min(as.numeric(mark))
+								bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+								bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+								bin_remade[binsmall[1]-1,'physical_length']<-pl
+								bin_remade<-bin_remade[-binsmall[1],]
+								binsmall<-which(bin_remade$physical_length<kb)
+							}else if(bsa$vector0%in%duplicated(bin_remade$vector0) & bs$physical_length<kb & bsb$physical_length<kb){
+								madd<-c(paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin']),paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin']))
+								mi<-unlist(strsplit(bsa[,'list_markers'],','))
+								mark<-gsub('/.*','',c(mi,madd))
+								pl<-max(as.numeric(mark))-min(as.numeric(mark))
+								bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+								bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+								bin_remade[binsmall[1]-1,'physical_length']<-pl
+								bin_remade<-bin_remade[-c(binsmall[1],binsmall[1]+1),]
+								binsmall<-which(bin_remade$physical_length<kb)
+							}else{
+								if(length(binsmall)>1){binsmall<-binsmall[2:length(binsmall)]
+								}else{binsmall<-NULL}
+							}
+						}
+					}
+				}
+				bin_dupl<-unique(bin_remade$vector0[duplicated(bin_remade$vector0)])
+				while(length(bin_dupl)>0){
+					w<-which(bin_remade$vector0%in%bin_dupl[1])
+					while(length(w)>1){
+						if(w[2]-w[1]==1){
+							madd<-paste0(unlist(strsplit(bin_remade[w[2],'list_markers'],',')),'/',bin_remade[w[2],'bin'])
+							mi<-unlist(strsplit(bin_remade[w[1],'list_markers'],','))
+							mark<-gsub('/.*','',c(mi,madd))
+							pl<-max(as.numeric(mark))-min(as.numeric(mark))
+							bin_remade[w[1],'list_markers']<-paste0(c(mi,madd),collapse=',')
+							bin_remade[w[1],'nb_markers']<-length(mark)
+							bin_remade[w[1],'physical_length']<-pl
+							bin_remade<-bin_remade[-w[2],]
+							w<-which(bin_remade$vector0%in%bin_dupl[1])
+						}else{if(length(w)>2){
+							w<-w[2:length(w)]}else{w<-NULL
+							if(length(bin_dupl)>2){
+								bin_dupl<-bin_dupl[2:length(bin_dupl)]
+							}else{bin_dupl<-NULL}
+							}
+						}
+					}
+				}
+			print(paste('corrected number bins: ',nrow(bin_remade)))
+			write.table(bin_remade,paste0(pattern,c,'/bins_',cont,'.txt'),row.names=F,col.names=T,quote=F,sep=';')
+		}
+	}
+}else{
+	filenames<-list.files(paste(pattern,'/bin_initial',sep=''),pattern='*.txt',full.names=T)
+	for (f in 1:length(filenames)){
+		bin_ini<-read.table(filenames[f],header=T,sep=',',colClasses=c('numeric','numeric','numeric','numeric','character','numeric','numeric','character'))	
+		cont<-bin_ini$contig[1]
+		print(paste('contig ',cont))
+		print(paste('initial number bins: ',nrow(bin_ini)))
+		bin_remade<-bin_ini
+		binsmall<-which(bin_remade$physical_length<kb)
+		if(nrow(bin_remade)>1){
+			while(length(binsmall)>0){
+				if(binsmall[1]==nrow(bin_remade)){
+					bs<-bin_remade[binsmall[1],]
+					bsa<-bin_remade[binsmall[1]-1,]
+					ra<-0
+					vk<-bsa$vector
+					vm<-bs$vector
+					for (k in 1:nchar(vk)){if(substr(vk,k,k)!=substr(vm,k,k)){ra<-ra+1}}
+					if(ra>10){
+						madd<-paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin'])
+						mi<-unlist(strsplit(bsa[,'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+						bin_remade[binsmall[1]-1,'physical_length']<-pl
+						bin_remade<-bin_remade[-binsmall[1],]
+						binsmall<-which(bin_remade$physical_length<kb)
+					}else{binsmall<-NULL}
+				}else if(binsmall[1]==1){
+					bs<-bin_remade[binsmall[1],]
+					bsb<-bin_remade[binsmall[1]+1,]
+					rb<-0
+					vk<-bs$vector
+					vm<-bsb$vector
+					for (k in 1:nchar(vk)){if(substr(vk,k,k)!=substr(vm,k,k)){rb<-rb+1}}
+					if(rb>10){
+						madd<-paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin'])
+						mi<-unlist(strsplit(bs[,'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[binsmall[1],'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[binsmall[1],'nb_markers']<-length(mark)
+						bin_remade[binsmall[1],'physical_length']<-pl
+						bin_remade<-bin_remade[-binsmall[1]+1,]
+						binsmall<-which(bin_remade$physical_length<kb)
+					}else{binsmall<-NULL}
+				}else{
+					bs<-bin_remade[binsmall[1],]
+					bsa<-bin_remade[binsmall[1]-1,]
+					bsb<-bin_remade[binsmall[1]+1,]
+					ra<-0
+					rb<-0
+					vj<-bsa$vector
+					vk<-bs$vector
+					vm<-bsb$vector
+					for(k in 1:nchar(vj)){
+						if(substr(vj,k,k)!=substr(vk,k,k)){ra<-ra+1}
+						if(substr(vj,k,k)!=substr(vm,k,k)){rb<-rb+1}
+					}
+					if(bsa$vector==bsb$vector){
+						madd<-c(paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin']),paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin']))
+						mi<-unlist(strsplit(bsa[,'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+						bin_remade[binsmall[1]-1,'physical_length']<-pl
+						bin_remade<-bin_remade[-c(binsmall[1],binsmall[1]+1),]
+						binsmall<-which(bin_remade$physical_length<kb)
+					}else if (bsa$vector!=bsb$vector & ra>rb){
+						madd<-paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin'])
+						mi<-unlist(strsplit(bsa[,'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+						bin_remade[binsmall[1]-1,'physical_length']<-pl
+						bin_remade<-bin_remade[-binsmall[1],]
+						binsmall<-which(bin_remade$physical_length<kb)
+					}else if(bsa$vector%in%duplicated(bin_remade$vector) & bs$physical_length<kb & bsb$physical_length<kb){
+						madd<-c(paste0(unlist(strsplit(bs[,'list_markers'],',')),'/',bs[,'bin']),paste0(unlist(strsplit(bsb[,'list_markers'],',')),'/',bsb[,'bin']))
+						mi<-unlist(strsplit(bsa[,'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[binsmall[1]-1,'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[binsmall[1]-1,'nb_markers']<-length(mark)
+						bin_remade[binsmall[1]-1,'physical_length']<-pl
+						bin_remade<-bin_remade[-c(binsmall[1],binsmall[1]+1),]
+						binsmall<-which(bin_remade$physical_length<kb)
+					}else{
+						if(length(binsmall)>1){
+							binsmall<-binsmall[2:length(binsmall)]
+						}else{binsmall<-NULL}
+					}
+				}
+			}
+			bin_dupl<-unique(bin_remade$vector[duplicated(bin_remade$vector)])
+			while(length(bin_dupl)>0){
+				w<-which(bin_remade$vector0%in%bin_dupl[1])
+				while(length(w)>1){
+					if(w[2]-w[1]==1){
+						madd<-paste0(unlist(strsplit(bin_remade[w[2],'list_markers'],',')),'/',bin_remade[w[2],'bin'])
+						mi<-unlist(strsplit(bin_remade[w[1],'list_markers'],','))
+						mark<-gsub('/.*','',c(mi,madd))
+						pl<-max(as.numeric(mark))-min(as.numeric(mark))
+						bin_remade[w[1],'list_markers']<-paste0(c(mi,madd),collapse=',')
+						bin_remade[w[1],'nb_markers']<-length(mark)
+						bin_remade[w[1],'physical_length']<-pl
+						bin_remade<-bin_remade[-w[2],]
+						w<-which(bin_remade$vector0%in%bin_dupl[1])
+						}else{	
+							if(length(w)>2){w<-w[2:length(w)]
+							}else{w<-NULL
+								if(length(bin_dupl)>2){bin_dupl<-bin_dupl[2:length(bin_dupl)]
+								}else{bin_dupl<-NULL}
+							}
+						}
+					}
+				bin_dupl<-bin_dupl[2:length(bin_dupl)]
+				if(NA%in%bin_dupl){bin_dupl<-NULL}
+				}
+		}
+	print(paste('corrected number bins: ',nrow(bin_remade)))
+	write.table(bin_remade,paste0(pattern,'/bins_',cont,'.txt'),row.names=F,col.names=T,quote=F,sep=';')
+	}
+}
