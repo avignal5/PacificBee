@@ -33,6 +33,8 @@ In Liu et al. (2015), drones from 3 colonies were used to estimate recombination
 
 We will use the same sequencing data, to detect SNPs in our contigs. Minimizing recombination rates between contigs ends will then be used to order and orientate the contigs.
 
+See scripts in "SNPs_for_genetic_map/Scripts" directory
+
 ### 2.1. Download fastq from SRA
 
 #### 2.1.1 datasheet (supplementary table 2)
@@ -133,6 +135,12 @@ qsub -b y -N index 'tabix -p vcf /LiuAllGenotypesGVCF_indels_OKNoMissing.recode.
 
 ## 3. Order and orient contigs by minimizing recombination between contig ends
 
+See scripts in "Genetic_maps_assembly/Scripts" directory.
+The pipeline_vcftogeno.sh script will:
+- Extract genotypes from the vcf file of the 3 "genetic map" colonies from Liu et al (2015) (see above).
+- Order and orient the contigs.
+- Plot comparison of the AMelMel assembly with Amel4.5, including graphs on recombination rates, GC % and SNP density.
+- Estimate the quality of the assembly with BUSCO.
 
 ## 4 Generate agp files for submission to databank and chromosome-level fasta files
 * With script Generate_Agp_Fasta.py
