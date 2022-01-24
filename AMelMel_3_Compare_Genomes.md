@@ -47,6 +47,8 @@ maf-convert  psl HAV3_1_AMelMel.maf > HAV3_1_AMelMel.psl
 
 #### Script for passing the parameters for all chromosomes to the plotting script PloAlignments.py
 
+* See plots in /Plot_Chrom_Alignments/Figures/HAv3_1_AMelMel_Chrs/
+
 ```python
 #!/usr/bin/env python3
 # _*_ coding: Utf-8 _*_
