@@ -1,0 +1,263 @@
+TBLASTN 2.9.0+
+
+
+Reference: Stephen F. Altschul, Thomas L. Madden, Alejandro A.
+Schaffer, Jinghui Zhang, Zheng Zhang, Webb Miller, and David J.
+Lipman (1997), "Gapped BLAST and PSI-BLAST: a new generation of
+protein database search programs", Nucleic Acids Res. 25:3389-3402.
+
+
+
+Database: Apis_mellifera.Amel_HAv3.1.dna.toplevel
+           177 sequences; 225,250,884 total letters
+
+
+
+Query= LOC113218640
+
+Length=143
+                                                                      Score        E
+Sequences producing significant alignments:                          (Bits)     Value  N
+
+EG:CM009933.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  212        2e-64  3
+EG:CM009934.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  52.5       2e-06  1
+EG:CM009938.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  50.7       8e-06  1
+EG:CM009939.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  50.2       1e-05  1
+EG:CM009931.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  49.3       2e-05  1
+EG:CM009943.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  41.0       0.007  1
+EG:CM009946.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM...  37.7       0.064  1
+
+
+>EG:CM009933.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009933.2:1:13619445:1 
+REF
+Length=13619445
+
+ Score = 212 bits (452),  Expect(3) = 2e-64
+ Identities = 84/84 (100%), Positives = 84/84 (100%), Gaps = 0/84 (0%)
+ Frame = -1
+
+Query  60        TSNTDKRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQLPMTSRSST  119
+                 TSNTDKRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQLPMTSRSST
+Sbjct  12026283  TSNTDKRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQLPMTSRSST  12026104
+
+Query  120       LHWPSRASYSGHIRWCCGVYLTFR  143
+                 LHWPSRASYSGHIRWCCGVYLTFR
+Sbjct  12026103  LHWPSRASYSGHIRWCCGVYLTFR  12026032
+
+
+ Score = 65.1 bits (134),  Expect(3) = 2e-64
+ Identities = 52/54 (96%), Positives = 53/54 (98%), Gaps = 0/54 (0%)
+ Frame = -1
+
+Query  13        FADHEKEGYDKLWPMKKrararvragararraSGFVEEggkrrrrggTSNTDKR  66
+                 F DHEKEGYDKLWPMKKRARARVRAGARARRASGFVEEGGKRRRRGGTSNTDK+
+Sbjct  12027255  FPDHEKEGYDKLWPMKKRARARVRAGARARRASGFVEEGGKRRRRGGTSNTDKK  12027094
+
+
+ Score = 36.3 bits (72),  Expect(3) = 2e-64
+ Identities = 14/14 (100%), Positives = 14/14 (100%), Gaps = 0/14 (0%)
+ Frame = -2
+
+Query  1         MIERALPIFPPLFA  14
+                 MIERALPIFPPLFA
+Sbjct  12030689  MIERALPIFPPLFA  12030648
+
+
+ Score = 114 bits (240),  Expect(3) = 1e-42
+ Identities = 47/47 (100%), Positives = 47/47 (100%), Gaps = 0/47 (0%)
+ Frame = +1
+
+Query  65        KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                 KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL
+Sbjct  12034939  KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL  12035079
+
+
+ Score = 68.8 bits (142),  Expect(3) = 1e-42
+ Identities = 24/24 (100%), Positives = 24/24 (100%), Gaps = 0/24 (0%)
+ Frame = +2
+
+Query  113       MTSRSSTLHWPSRASYSGHIRWCC  136
+                 MTSRSSTLHWPSRASYSGHIRWCC
+Sbjct  12035084  MTSRSSTLHWPSRASYSGHIRWCC  12035155
+
+
+ Score = 28.0 bits (54),  Expect(3) = 1e-42
+ Identities = 21/22 (95%), Positives = 22/22 (100%), Gaps = 0/22 (0%)
+ Frame = +3
+
+Query  45        SGFVEEggkrrrrggTSNTDKR  66
+                 SGFVEEGGKRRRRGGTSNTDK+
+Sbjct  12034878  SGFVEEGGKRRRRGGTSNTDKK  12034943
+
+
+ Score = 114 bits (240),  Expect(2) = 1e-39
+ Identities = 47/47 (100%), Positives = 47/47 (100%), Gaps = 0/47 (0%)
+ Frame = -2
+
+Query  65        KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                 KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL
+Sbjct  12027098  KRSTLDLMLADINGNLADLRSEAMASQRFCLRWNNHQSNLLSVFDQL  12026958
+
+
+ Score = 68.8 bits (142),  Expect(2) = 1e-39
+ Identities = 24/24 (100%), Positives = 24/24 (100%), Gaps = 0/24 (0%)
+ Frame = -3
+
+Query  113       MTSRSSTLHWPSRASYSGHIRWCC  136
+                 MTSRSSTLHWPSRASYSGHIRWCC
+Sbjct  12026953  MTSRSSTLHWPSRASYSGHIRWCC  12026882
+
+
+ Score = 49.3 bits (100),  Expect(2) = 2e-09
+ Identities = 18/29 (62%), Positives = 21/29 (72%), Gaps = 0/29 (0%)
+ Frame = -2
+
+Query  83       LRSEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                L+  AM  Q+FCLRWNNHQ N +SVF  L
+Sbjct  4692896  LQFVAMTMQQFCLRWNNHQPNFISVFSNL  4692810
+
+
+ Score = 47.0 bits (95),  Expect(2) = 2e-09
+ Identities = 16/17 (94%), Positives = 16/17 (94%), Gaps = 0/17 (0%)
+ Frame = -3
+
+Query  13        FADHEKEGYDKLWPMKK  29
+                 F DHEKEGYDKLWPMKK
+Sbjct  12034102  FPDHEKEGYDKLWPMKK  12034052
+
+
+>EG:CM009934.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009934.2:1:13404451:1 
+REF
+Length=13404451
+
+ Score = 52.5 bits (107),  Expect = 2e-06
+ Identities = 19/27 (70%), Positives = 21/27 (78%), Gaps = 0/27 (0%)
+ Frame = +2
+
+Query  85       SEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                S  M S+ +CLRWNNHQSNLL VF QL
+Sbjct  8405978  SSDMGSEHYCLRWNNHQSNLLGVFSQL  8406058
+
+
+>EG:CM009938.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009938.2:1:12717210:1 
+REF
+Length=12717210
+
+ Score = 50.7 bits (103),  Expect = 8e-06
+ Identities = 17/25 (68%), Positives = 23/25 (92%), Gaps = 0/25 (0%)
+ Frame = -2
+
+Query  87       AMASQRFCLRWNNHQSNLLSVFDQL  111
+                A  SQ++CLRWNNH+SNLL++FD+L
+Sbjct  1925762  ASTSQQYCLRWNNHRSNLLTMFDKL  1925688
+
+
+ Score = 39.6 bits (79),  Expect = 0.018
+ Identities = 13/23 (57%), Positives = 18/23 (78%), Gaps = 0/23 (0%)
+ Frame = -3
+
+Query  89        ASQRFCLRWNNHQSNLLSVFDQL  111
+                 + Q+FCLRWNN Q+N+ S F+ L
+Sbjct  12291553  SQQQFCLRWNNFQANITSQFEAL  12291485
+
+
+ Score = 38.6 bits (77),  Expect = 0.034
+ Identities = 14/27 (52%), Positives = 18/27 (67%), Gaps = 0/27 (0%)
+ Frame = -2
+
+Query  85       SEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                S  M  Q++CLRW  H SNL ++F QL
+Sbjct  1239821  SSNMFPQQYCLRWKYHHSNLQTMFSQL  1239741
+
+
+>EG:CM009939.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009939.2:1:12354651:1 
+REF
+Length=12354651
+
+ Score = 50.2 bits (102),  Expect = 1e-05
+ Identities = 19/30 (63%), Positives = 22/30 (73%), Gaps = 0/30 (0%)
+ Frame = +2
+
+Query  85        SEAMASQRFCLRWNNHQSNLLSVFDQLPMT  114
+                 S  MA Q +CLRWNN+QSN+ SVF QL  T
+Sbjct  10876268  SGGMAGQHYCLRWNNYQSNMTSVFHQLLQT  10876357
+
+
+ Score = 45.6 bits (92),  Expect = 3e-04
+ Identities = 16/30 (53%), Positives = 21/30 (70%), Gaps = 0/30 (0%)
+ Frame = -3
+
+Query  82        DLRSEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                 ++R +    Q+FCLRWNNHQS L+  FD L
+Sbjct  10860868  EVRKKMEDDQQFCLRWNNHQSTLIQNFDTL  10860779
+
+
+ Score = 37.7 bits (75),  Expect = 0.064
+ Identities = 12/21 (57%), Positives = 15/21 (71%), Gaps = 0/21 (0%)
+ Frame = -1
+
+Query  91       QRFCLRWNNHQSNLLSVFDQL  111
+                Q++CLRWNNH +NL  V   L
+Sbjct  5543727  QQYCLRWNNHPANLTDVLSSL  5543665
+
+
+>EG:CM009931.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009931.2:1:27754200:1 
+REF
+Length=27754200
+
+ Score = 49.3 bits (100),  Expect = 2e-05
+ Identities = 18/28 (64%), Positives = 24/28 (86%), Gaps = 0/28 (0%)
+ Frame = -1
+
+Query  84        RSEAMASQRFCLRWNNHQSNLLSVFDQL  111
+                 +S A + Q+FCLRWNN+Q+NL +VFDQL
+Sbjct  10405968  QSGAGSPQQFCLRWNNYQTNLTNVFDQL  10405885
+
+
+>EG:CM009943.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009943.2:1:11279722:1 
+REF
+Length=11279722
+
+ Score = 41.0 bits (82),  Expect = 0.007
+ Identities = 13/22 (59%), Positives = 18/22 (82%), Gaps = 0/22 (0%)
+ Frame = -3
+
+Query  90       SQRFCLRWNNHQSNLLSVFDQL  111
+                +Q FCLRWNN+QS++ S F+ L
+Sbjct  3338321  TQHFCLRWNNYQSSITSAFENL  3338256
+
+
+>EG:CM009946.2 dna:primary_assembly primary_assembly:Amel_HAv3.1:CM009946.2:1:7238532:1 
+REF
+Length=7238532
+
+ Score = 37.7 bits (75),  Expect = 0.064
+ Identities = 12/21 (57%), Positives = 17/21 (81%), Gaps = 0/21 (0%)
+ Frame = +2
+
+Query  91      QRFCLRWNNHQSNLLSVFDQL  111
+               Q+FC+ WN+HQSN+ S F +L
+Sbjct  785303  QQFCVSWNSHQSNMHSAFPKL  785365
+
+
+
+Lambda      K        H
+   0.322    0.133    0.430 
+
+Gapped
+Lambda      K        H
+   -1.00    -1.00    -1.00 
+
+Effective search space used: 7207229664
+
+
+  Database: Apis_mellifera.Amel_HAv3.1.dna.toplevel
+    Posted date:  Nov 23, 2021  11:21 AM
+  Number of letters in database: 225,250,884
+  Number of sequences in database:  177
+
+
+
+Matrix: BLOSUM62
+Neighboring words threshold: 13
+Window for multiple hits: 40
