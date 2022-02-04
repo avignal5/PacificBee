@@ -95,7 +95,7 @@ axs[1,1].plot(df_DelIns_short.Length)
 ![png](output_6_1.png)
 
 
-## Plot length distribution of inversions and tandem duplications 
+## Plot length distribution of inversions and tandem duplications
 * Are they polymorphism or sequencing errors?
 
 
@@ -108,7 +108,7 @@ df_DelIns_tandem
 fig, (ax1,ax2) = plt.subplots(1,2,figsize=(20,5))
 ax1.plot(df_DelIns_inv.LengthInv)
 ax2.plot(df_DelIns_tandem.Length)
-                           
+
 ```
 
 
@@ -162,7 +162,7 @@ samtools depth -r CM010328.1:663884-665903 -f allBAMsAMelMel.list > allDepthsAMe
 * The 35 ligusticas = indices 48 to 82
 
 
-### Longest AMel NUMT absent of HAv3
+### Longest AMel NUMT absent of HAv3, on LG2
 
 
 
@@ -220,7 +220,7 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037639.1') & (df_DelIns.Pos > 12047000) & (df_
 
 
 
-### Longest HAv3 NUMT absent of AMel
+### Longest HAv3 NUMT absent of AMel, on LG10
 
 
 ```python
@@ -275,6 +275,9 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037647.1') & (df_DelIns.Pos > 670500) & (df_De
 </table>
 </div>
 
+
+
+![](images/2022/02/HAV3_1_AMelMel_NUMT_LG10_.pdf)
 
 
 ### Plots mean sequencing depths
