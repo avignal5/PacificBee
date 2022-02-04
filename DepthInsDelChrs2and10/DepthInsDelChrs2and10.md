@@ -277,9 +277,6 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037647.1') & (df_DelIns.Pos > 670500) & (df_De
 
 
 
-![](images/2022/02/HAV3_1_AMelMel_NUMT_LG10_.pdf)
-
-
 ### Plots mean sequencing depths
 * for all samples and for the mean for each of the three subspecies separately
 * On AMelMel and on HAv3
