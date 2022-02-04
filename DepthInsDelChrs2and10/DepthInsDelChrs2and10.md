@@ -162,7 +162,7 @@ samtools depth -r CM010328.1:663884-665903 -f allBAMsAMelMel.list > allDepthsAMe
 * The 35 ligusticas = indices 48 to 82
 
 
-### Longest AMel NUMT absent of HAv3
+### Longest AMel NUMT absent of HAv3, on LG2
 
 
 
@@ -220,7 +220,7 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037639.1') & (df_DelIns.Pos > 12047000) & (df_
 
 
 
-### Longest HAv3 NUMT absent of AMel
+### Longest HAv3 NUMT absent of AMel, on LG10
 
 
 ```python
