@@ -87,7 +87,7 @@ axs[1,1].plot(df_DelIns_short.Length)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7fc42ac3f8d0>]
+    [<matplotlib.lines.Line2D at 0x7fc35f17f3d0>]
 
 
 
@@ -114,7 +114,7 @@ ax2.plot(df_DelIns_tandem.Length)
 
 
 
-    [<matplotlib.lines.Line2D at 0x7fc42b2ba590>]
+    [<matplotlib.lines.Line2D at 0x7fc35fa345d0>]
 
 
 
@@ -124,7 +124,7 @@ ax2.plot(df_DelIns_tandem.Length)
 
 ## Test the status of one insertion and one deletion samples sequenced by Illumina
 ### Samples from the Wragg et al 2022 paper
-* The A. m. mellifera sample used for the AMemMel assembly.
+* The A. m. mellifera sample used for the AMelMel assembly.
 * 15 A. m. caucasia
 * 30 A. m. ligustica
 * 35 A. m. mellifera from Ouessant
@@ -341,8 +341,8 @@ HAv3_LG2_ticks = axs[0,1].get_xticks()
 HAv3_LG2_ticks = HAv3_LG2_ticks/1000
 axs[0,1].set_xticklabels(HAv3_LG2_ticks)
 axs[1,1].set_xticklabels(HAv3_LG2_ticks)
-axs[0,1].set_xlabel("HAv3 chromosome 10 (kb)", fontsize = 12)
-axs[1,1].set_xlabel("HAv3 chromosome 10 (kb)", fontsize = 12)
+axs[0,1].set_xlabel("HAv3 chromosome 2 (kb)", fontsize = 12)
+axs[1,1].set_xlabel("HAv3 chromosome 2 (kb)", fontsize = 12)
 axs[0,1].set_ylabel("Sequencing depth", fontsize = 12)
 axs[1,1].set_ylabel("Sequencing depth", fontsize = 12)
 
@@ -350,8 +350,8 @@ AMelMel_LG10_ticks = axs[2,0].get_xticks()
 AMelMel_LG10_ticks = AMelMel_LG10_ticks/1000
 axs[2,0].set_xticklabels(AMelMel_LG10_ticks)
 axs[3,0].set_xticklabels(AMelMel_LG10_ticks)
-axs[2,0].set_xlabel("AMelMel chromosome 2 (kb)", fontsize = 12)
-axs[3,0].set_xlabel("AMelMel chromosome 2 (kb)", fontsize = 12)
+axs[2,0].set_xlabel("AMelMel chromosome 10 (kb)", fontsize = 12)
+axs[3,0].set_xlabel("AMelMel chromosome 10 (kb)", fontsize = 12)
 axs[2,0].set_ylabel("Sequencing depth", fontsize = 12)
 axs[3,0].set_ylabel("Sequencing depth", fontsize = 12)
 
