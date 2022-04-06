@@ -1,0 +1,17 @@
+GenbankName	Contig	SequenceType	LinkageGroup	SequenceLength	LinkageGroupUN	OurNames
+LG1	LG1	assembled-molecule	LG1	27693668	LG1	chr1
+LG2	LG2	assembled-molecule	LG2	16258033	LG2	chr2
+LG3	LG3	assembled-molecule	LG3	13573435	LG3	chr3
+LG4	LG4	assembled-molecule	LG4	13465246	LG4	chr4
+LG5	LG5	assembled-molecule	LG5	13984644	LG5	chr5
+LG6	LG6	assembled-molecule	LG6	17790815	LG6	chr6
+LG7	LG7	assembled-molecule	LG7	14287540	LG7	chr7
+LG8	LG8	assembled-molecule	LG8	12748686	LG8	chr8
+LG9	LG9	assembled-molecule	LG9	12376482	LG9	chr9
+LG10	LG10	assembled-molecule	LG10	12376607	LG10	chr10
+LG11	LG11	assembled-molecule	LG11	16458292	LG11	chr11
+LG12	LG12	assembled-molecule	LG12	11557182	LG12	chr12
+LG13	LG13	assembled-molecule	LG13	11458211	LG13	chr13
+LG14	LG14	assembled-molecule	LG14	10707105	LG14	chr14
+LG15	LG15	assembled-molecule	LG15	9542292	LG15	chr15
+LG16	LG16	assembled-molecule	LG16	7205771	LG16	chr16
