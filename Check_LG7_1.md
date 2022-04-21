@@ -522,7 +522,7 @@ contig4[contig4.Period_Size > 50].sort_values(by='RepEnd',ascending=False).head(
 
 
 
-* The repeat of period size 773 at the end of contig 4 has the same coordinates as the repeat of period siez 258 and 258 * 3 = 774.
+* The repeat of period size 773 at the end of contig 4 has the same coordinates as the repeat of period size 258 and 258 * 3 = 774.
 * Pairwise alignment of the 258 repeat on the 773 repeat gives 3 possible contigous alignments with 100%, 100% and 99.61% (1 mismatch) identity.
 * They are thus equivalent.
 ## Extract sequence of the repeat found at the ends of both contigs, of period size 258
