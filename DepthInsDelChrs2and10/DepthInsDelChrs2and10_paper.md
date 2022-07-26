@@ -11,13 +11,14 @@ from IPython.display import display
 ```
 
 # Sequencing depth in samples at two indels
+## Two nuclear mitochondrial DNA (NUMT) were selected, from another study (unpublished)
 * One NUMT present in AMelMel and absent in HAv3
 * One NUMT absent in AMelMel and present in HAv3
-* variants.vcf : insertions, deletions, inversions detected by alignment of AMelMel and HAv3 with minimap and SVIM
+* In both cases, the largest possible NUMT was selected (see below)
 
 ## Import table of insertions and deletions
-* variants.vcf : insertions, deletions, inversions detected by alignment of AMelMel and HAv3 with minimap and SVIM
-* see minimap2, SVIM-asm, graphtyper2 in AMelMel_4_Structural_Variant_detection.md
+* variants.vcf : ocontains insertions, deletions, inversions detected by alignment of AMelMel and HAv3 with minimap and structural variant detection with SVIM
+* see minimap2, SVIM-asm, graphtyper2 in markdown file on GitHub: AMelMel_4_Structural_Variant_detection.md
 
 ## Extraction of relevant information from variants.vcf
 
@@ -39,9 +40,11 @@ grep -v "#" variants.vcf | awk 'BEGIN{OFS="\t"}{print $1, $2, $3, $4, $5, $8}' |
 
 
 ```python
-# Import the genotyping data, as obtained by awk (see above) from the vcf
-df_DelIns = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/InsDelData.txt", sep="\t", header=None)
+# Import the genotyping data, as obtained by awk (see above) from the variants.vcf
+df_DelIns = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/InsDelData.txt", 
+                        sep="\t", header=None)
 df_DelIns.columns = ['Chrom','Pos','Svim','Ref','Alt','Type','End','Length']
+# Which types of structural variants are found in the file
 df_DelIns.Type.unique()
 
 ```
@@ -53,7 +56,7 @@ df_DelIns.Type.unique()
 
 
 
-### Longest AMel NUMT absent of HAv3, on LG2: NUMT_Chr2
+### Longest NUMT present in AMelMel and absent in HAv3 is on LG2: NUMT_Chr2
 
 
 
@@ -111,7 +114,7 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037639.1') & (df_DelIns.Pos > 12047000) & (df_
 
 
 
-### Longest HAv3 NUMT absent of AMel, on LG10: NUMT_Chr10
+### Longest NUMT present in HAv3 and absent in AMelMel is on LG10: NUMT_Chr10
 
 
 ```python
@@ -169,15 +172,15 @@ df_DelIns[(df_DelIns.Chrom == 'NC_037647.1') & (df_DelIns.Pos > 670500) & (df_De
 
 
 ## Test the status of : NUMT_Chr2 and : NUMT_Chr2 on samples sequenced by Illumina
-### Samples from the Wragg et al 2022 paper
+### Samples from the Wragg et al 2022 paper: doi/10.1111/1755-0998.13665
 * The A. m. mellifera sample used for the AMelMel assembly.
 * 15 A. m. caucasia
 * 30 A. m. ligustica
 * 35 A. m. mellifera from Ouessant
 ### All aligned to AMelMel and to HAv3.1
 
-* allBAMsHAv3.list : paths to the HAv3 bam files
-* allBAMsAMelMel.list : paths to the AMelMel bam files
+* allBAMsHAv3.list : paths to the bam files of the alignments to HAv3
+* allBAMsAMelMel.list : paths to the bam files of the alignments to AMelMel
 
 ```bash
 head -3 allBAMsHAv3.list
@@ -208,47 +211,92 @@ samtools depth -r CM010328.1:663884-665903 -f allBAMsAMelMel.list > allDepthsAMe
 * The 35 ligusticas = indices 48 to 82
 
 ## Plot figure : mean sequencing depths per populations
-* for all samples and for the mean for each of the three subspecies separately
+* Mean and standard deviation for all samples
+* Mean for each of the three subspecies separately
 * On AMelMel and on HAv3
 
 
 
 ```python
 # Import the tables of sequencing depths
-df_AMelMel_NUMT_LG2 = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsAMelMel_NUMT_Chr2.table", sep="\t", header=None)
-df_HAv3_NUMT_LG2 = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsHAv3_NUMT_Chr2.table", sep="\t", header=None)
-df_AMelMel_NUMT_LG10 = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsAMelMel_NUMT_Chr10.table", sep="\t", header=None)
-df_HAv3_NUMT_LG10 = pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsHAv3_NUMT_Chr10.table", sep="\t", header=None)
+df_AMelMel_NUMT_LG2 = \
+    pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsAMelMel_NUMT_Chr2.table",
+                sep="\t", header=None)
+df_HAv3_NUMT_LG2 = \
+    pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsHAv3_NUMT_Chr2.table",
+                sep="\t", header=None)
+df_AMelMel_NUMT_LG10 = \
+    pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsAMelMel_NUMT_Chr10.table",
+                sep="\t", header=None)
+df_HAv3_NUMT_LG10 = \
+    pd.read_csv("/Users/avignal/GenotoulWork/DepthChr3Inverstion/allDepthsHAv3_NUMT_Chr10.table",
+                sep="\t", header=None)
 
 # Plot figures
 fig, axs = plt.subplots(4,2,figsize=(15,20))
-axs[0,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:82].mean(axis=1),label="Mean allsamples", c="red")
-axs[0,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:82].std(axis=1),label="SD allsamples", c="blue")
+
+# Mean and standard deviation of sequencing depths for all samples: NUMT_Chr2 on AMelMel
+axs[0,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:82].mean(axis=1),
+              label="Mean allsamples", c="red")
+axs[0,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:82].std(axis=1),
+              label="SD allsamples", c="blue")
 axs[0,0].legend(loc='lower left')
-axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:17].mean(axis=1),label="A.m.caucasia", c="green")
-axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,18:47].mean(axis=1),label="A.m.ligustica", c="orange")
-axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,48:82].mean(axis=1),label="A.m.mellifera",c="black")
+
+# Mean sequencing depths per subspecies: NUMT_Chr2 on AMelMel
+axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,3:17].mean(axis=1),
+              label="A.m.caucasia", c="green")
+axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,18:47].mean(axis=1),
+              label="A.m.ligustica", c="orange")
+axs[1,0].plot(df_AMelMel_NUMT_LG2.loc[:,1],df_AMelMel_NUMT_LG2.loc[:,48:82].mean(axis=1),
+              label="A.m.mellifera",c="black")
 axs[1,0].legend(loc='lower left')
-axs[0,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:82].mean(axis=1),label="Mean allsamples", c="red")
-axs[0,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:82].std(axis=1),label="SD allsamples", c="blue")
+
+# Mean and standard deviation of sequencing depths for all samples: NUMT_Chr2 on HAv3
+axs[0,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:82].mean(axis=1),
+              label="Mean allsamples", c="red")
+axs[0,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:82].std(axis=1),
+              label="SD allsamples", c="blue")
 axs[0,1].legend(loc='lower left')
-axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:17].mean(axis=1),label="A.m.caucasia", c="green")
-axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,18:47].mean(axis=1),label="A.m.ligustica", c="orange")
-axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,48:82].mean(axis=1),label="A.m.mellifera",c="black")
+
+# Mean sequencing depths per subspecies: NUMT_Chr2 on HAv3
+axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,3:17].mean(axis=1),
+              label="A.m.caucasia", c="green")
+axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,18:47].mean(axis=1),
+              label="A.m.ligustica", c="orange")
+axs[1,1].plot(df_HAv3_NUMT_LG2.loc[:,1],df_HAv3_NUMT_LG2.loc[:,48:82].mean(axis=1),
+              label="A.m.mellifera",c="black")
 axs[1,1].legend(loc='lower left')
-axs[2,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:82].mean(axis=1),label="Mean allsamples", c="red")
-axs[2,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:82].std(axis=1),label="SD allsamples", c="blue")
+
+# Mean and standard deviation of sequencing depths for all samples: NUMT_Chr10 on AMelMel
+axs[2,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:82].mean(axis=1),
+              label="Mean allsamples", c="red")
+axs[2,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:82].std(axis=1),
+              label="SD allsamples", c="blue")
 axs[2,0].legend(loc='lower left')
-axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:17].mean(axis=1),label="A.m.caucasia", c="green")
-axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,18:47].mean(axis=1),label="A.m.ligustica", c="orange")
-axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,48:82].mean(axis=1),label="A.m.mellifera",c="black")
+
+# Mean sequencing depths per subspecies: NUMT_Chr10 on AMelMel
+axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,3:17].mean(axis=1),
+              label="A.m.caucasia", c="green")
+axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,18:47].mean(axis=1),
+              label="A.m.ligustica", c="orange")
+axs[3,0].plot(df_AMelMel_NUMT_LG10.loc[:,1],df_AMelMel_NUMT_LG10.loc[:,48:82].mean(axis=1),
+              label="A.m.mellifera",c="black")
 axs[3,0].legend(loc='lower left')
-axs[2,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:82].mean(axis=1),label="Mean allsamples", c="red")
-axs[2,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:82].std(axis=1),label="SD allsamples", c="blue")
+
+# Mean and standard deviation of sequencing depths for all samples: NUMT_Chr10 on HAv3
+axs[2,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:82].mean(axis=1),
+              label="Mean allsamples", c="red")
+axs[2,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:82].std(axis=1),
+              label="SD allsamples", c="blue")
 axs[2,1].legend(loc='lower left')
-axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:17].mean(axis=1),label="A.m.caucasia", c="green")
-axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,18:47].mean(axis=1),label="A.m.ligustica", c="orange")
-axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,48:82].mean(axis=1),label="A.m.mellifera",c="black")
+
+# Mean sequencing depths per subspecies: NUMT_Chr10 on HAv3
+axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,3:17].mean(axis=1),
+              label="A.m.caucasia", c="green")
+axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,18:47].mean(axis=1),
+              label="A.m.ligustica", c="orange")
+axs[3,1].plot(df_HAv3_NUMT_LG10.loc[:,1],df_HAv3_NUMT_LG10.loc[:,48:82].mean(axis=1),
+              label="A.m.mellifera",c="black")
 axs[3,1].legend(loc='lower left')
 
 #Tick labels converted to kb
@@ -288,28 +336,41 @@ axs[3,1].set_xlabel("HAv3 chromosome 10 (kb)", fontsize = 12)
 axs[2,1].set_ylabel("Sequencing depth", fontsize = 12)
 axs[3,1].set_ylabel("Sequencing depth", fontsize = 12)
 
-fig.savefig("/Users/avignal/Documents/Stats/2016_PacificBee/2019AlignAMelMelHav3_1/WholeChromosomesV2c/Depth_LG2_LG10/Depth_LG2_10_All.pdf", bbox_inches='tight')
+#fig.savefig("/Users/avignal/Documents/Articles/2019_PacificBee/Depth_LG2_10_All.pdf", bbox_inches='tight')
 
 ```
 
 
-![png](output_8_0.png)
+
+
+    Text(0, 0.5, 'Sequencing depth')
 
 
 
-```python
 
-```
+![png](output_8_1.png)
+
 
 ## Make tables with graphtyper2 results
 ### See AMelMel_4_Structural_Variant_detection.md for the production of the genotypes.txt files
-* One file per NUMT X Reference genome
-* Three files altogether, as NUMT_Chr10 could not be genotyped on HAv3.1
+#### Briefly : Graphtyper 2 was run for both NUMT_Chr and NUMT_Chr10 on the two variants.vcf.gz files produced by minimap and svim-asm: one with HAv3 as reference and AMelMel as query and one with the reverse
+* 2 NUMTs X 2 minimap-svim_asm files = 4 output files named genotypes.txt by graphtyper, each in a separate directory
+* NUMT_Chr10 could not be genotyped when using HAv3.1 as reference: the genotypes.txt was empty
+* Three files left
+
 
 
 ```python
-# NUMT_Chr2: HAv3.1 as reference
-chr2_HAv3 = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/sv_results/NC_037639.1/genotypes.txt', sep="\t", header=None)
+
+
+```
+
+
+```python
+# NUMT_Chr2: HAv3.1 as reference for minimap
+chr2_HAv3 = \
+    pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/sv_results/NC_037639.1/genotypes.txt',
+                sep="\t", header=None)
 chr2_HAv3.columns = ['Chr','Pos','Ref','Alt','Sample','Genotype']
 chr2_HAv3.Alt.value_counts()
 AGGREGATED = chr2_HAv3.loc[chr2_HAv3.Alt == "<INS:SVSIZE=745:AGGREGATED>",['Sample','Genotype']]
@@ -321,7 +382,9 @@ chr2_HAv3 = AGGREGATED.join(BREAKPOINT2,lsuffix='Agg', rsuffix='Bk2')
 #chr2_HAv3
 
 # NUMT_Chr2: AMelMel1.1 as reference
-chr2_AMel = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/HAv3_on_AMel/sv_results/CM010320.1/genotypes.txt', sep="\t", header=None)
+chr2_AMel = \
+    pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/HAv3_on_AMel/sv_results/CM010320.1/genotypes.txt',
+                sep="\t", header=None)
 chr2_AMel.columns = ['Chr','Pos','Ref','Alt','Sample','Genotype']
 chr2_AMel.Alt.value_counts()
 AGGREGATED = chr2_AMel.loc[chr2_AMel.Alt == "<DEL:SVSIZE=745:AGGREGATED>",['Sample','Genotype']]
@@ -359,7 +422,9 @@ chr2_Numt = chr2_Numt[chr2_Numt.Sample != "Ab-PacBio"]
 #chr2_Numt
 
 # Chromosome 10: AMelMel1.1 as reference
-chr10_AMel = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/HAv3_on_AMel/sv_results/CM010328.1/genotypes.txt', sep="\t", header=None)
+chr10_AMel = \
+    pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/allInsDel/HAv3_on_AMel/sv_results/CM010328.1/genotypes.txt',
+                sep="\t", header=None)
 chr10_AMel.columns = ['Chr','Pos','Ref','Alt','Sample','Genotype']
 chr10_AMel.Alt.value_counts()
 AGGREGATED = chr10_AMel.loc[chr10_AMel.Alt == "<INS:SVSIZE=576:AGGREGATED>",['Sample','Genotype']]
@@ -689,7 +754,7 @@ awk 'BEGIN{FS="/"}{print $8}' allBAMsAMelMel.list | awk 'BEGIN{FS="_"}{print $1}
     * Alignments to AMelMel1.1 for NUMT_Chr2
     * Alignments to HAv3.1 for NUMT_Chr10
 * Calculate for each individual the ratio between sequencing depth at the NUMT and in the flanking regions
-* Assign rations to two groups by K-means clustering
+* Assign ratios to two groups by K-means clustering
 * In dataframes ratios_chr2_df and ratios_chr10_df
 * Merge to Graphtyper results: ind ataframes ratios_chr2_df_graphtyper and ratios_chr10_df_graphtyper
 * Plot
@@ -697,6 +762,7 @@ awk 'BEGIN{FS="/"}{print $8}' allBAMsAMelMel.list | awk 'BEGIN{FS="_"}{print $1}
 
 
 ```python
+"""Plot the sequencing depth ratios with the Graphtyper 2 results"""
 
 # Make list of samples, to use as column headers (insert headers 'Chrom' and 'Pos')
 samples_list = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/Samples.list', sep = "\n", header = None)
@@ -707,7 +773,7 @@ samples_list.insert(0, 'Chrom')
 
 
 # Make figure space for plotting
-fig = plt.figure(figsize=(12,7))
+fig = plt.figure(figsize=(12,12))
 ax = fig.add_subplot(111)
 ax.spines['top'].set_color('none')
 ax.spines['bottom'].set_color('none')
@@ -719,7 +785,316 @@ ax.axis('off')
 
 ##### PLOT 1
 
-ax1 = fig.add_subplot(221)
+df_AMelMel_NUMT_LG2_new = df_AMelMel_NUMT_LG2.copy()
+df_AMelMel_NUMT_LG2_new.columns = samples_list
+ratios_chr2 = []
+for i in samples_to_genotype:
+    flanking = df_AMelMel_NUMT_LG2_new[(df_AMelMel_NUMT_LG2_new.Pos < 12212275) | (df_AMelMel_NUMT_LG2_new.Pos > 12213020)][i]#.mean()
+    insert = df_AMelMel_NUMT_LG2_new[(df_AMelMel_NUMT_LG2_new.Pos >= 12212275) & (df_AMelMel_NUMT_LG2_new.Pos <= 12213020)][i]
+    flanking_mean = flanking.mean()
+    insert_mean = insert.mean()
+    ratio = insert_mean / flanking_mean
+    ratios_chr2.append([i,flanking_mean, insert_mean, ratio])
+ratios_chr2_df = pd.DataFrame(ratios_chr2, columns=['Sample', 'Flanking', 'Insert','Ratio'])
+ratios_chr2_df['Chromosome'] = 2
+ratios_chr2_df['Color'] = ''
+ratios_chr2_df['Subspecies'] = ''
+
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^CAU'),'Color'] = 'green'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^CAU'),'Subspecies'] = 'A. m. caucasia'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^OUE'),'Color'] = 'black'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^OUE'),'Subspecies'] = 'A. m. mellifera'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^ITA'),'Color'] = 'yellow'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^ITA'),'Subspecies'] = 'A. m. ligustica'
+ratios_chr2_df
+
+kmeans = KMeans(n_clusters=2).fit(np.array(ratios_chr2_df['Ratio']).reshape(-1, 1))
+centroids = kmeans.cluster_centers_
+ratios_chr2_df['Genotype'] = kmeans.labels_.tolist()
+
+ax2 = fig.add_subplot(211)
+
+ax2.patch.set_facecolor('#ababab')
+ax2.patch.set_alpha(0.3)
+ax2.grid()
+
+chr2_Numt_new = chr2_Numt.copy()
+chr2_Numt_new['Graphtyper'] = 'No call'
+chr2_Numt_new.loc[chr2_Numt_new.NUMT == "1/1",'Graphtyper'] = 'HAv3.1'
+chr2_Numt_new.loc[chr2_Numt_new.NUMT == "0/0",'Graphtyper'] = 'AMelMel1.1'
+
+chr2_Numt_new = chr2_Numt_new[['Sample','Graphtyper']].set_index('Sample')
+ratios_chr2_df_idx = ratios_chr2_df.set_index('Sample')
+ratios_chr2_df_graphtyper = ratios_chr2_df_idx.join(chr2_Numt_new)
+ratios_chr2_df_graphtyper
+
+ratios_chr2_df_graphtyper['Genome'] = 'Unknown'
+ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 1,'Genome'] = 'HAv3.1'
+ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 0,'Genome'] = 'AMelMel1.1'
+ratios_chr2_df_graphtyper
+
+sns.swarmplot(x="Graphtyper", y="Ratio", data=ratios_chr2_df_graphtyper, order=['AMelMel1.1','HAv3.1','No call'],
+             hue="Subspecies", palette = ['green','yellow','black'], size=5.5)
+plt.xlabel("Reference allele call by Graphtyper: NUMT_Chr2", fontsize=16)
+plt.ylabel("Numt / flanking sequencing depth ratio", fontsize=14)
+plt.tick_params(axis='both', which='major', labelsize=14)
+
+##### PLOT 2
+
+df_HAv3_NUMT_LG10_new = df_HAv3_NUMT_LG10.copy()
+df_HAv3_NUMT_LG10_new.columns = samples_list
+ratios_chr10 = []
+for i in samples_to_genotype:
+    flanking = df_HAv3_NUMT_LG10_new[(df_HAv3_NUMT_LG10_new.Pos < 670675) | (df_HAv3_NUMT_LG10_new.Pos > 671251)][i]#.mean()
+    insert = df_HAv3_NUMT_LG10_new[(df_HAv3_NUMT_LG10_new.Pos >= 670675) & (df_HAv3_NUMT_LG10_new.Pos <= 671251)][i]
+    flanking_mean = flanking.mean() # / len(flanking)
+    insert_mean = insert.mean() # / len(insert)
+    ratio = insert_mean / flanking_mean
+    ratios_chr10.append([i,flanking_mean, insert_mean, ratio])
+ratios_chr10_df = pd.DataFrame(ratios_chr10, columns=['Sample', 'Flanking', 'Insert','Ratio'])
+ratios_chr10_df['Chromosome'] = 10
+ratios_chr10_df['Color'] = ''
+ratios_chr10_df['Subspecies'] = ''
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^CAU'),'Color'] = 'green'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^CAU'),'Subspecies'] = 'A. m. caucasia'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^OUE'),'Color'] = 'black'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^OUE'),'Subspecies'] = 'A. m. mellifera'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^ITA'),'Color'] = 'yellow'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^ITA'),'Subspecies'] = 'A. m. ligustica'
+ratios_chr10_df
+
+kmeans = KMeans(n_clusters=2).fit(np.array(ratios_chr10_df['Ratio']).reshape(-1, 1))
+centroids = kmeans.cluster_centers_
+ratios_chr10_df['Genotype'] = kmeans.labels_.tolist()
+
+ax4 = fig.add_subplot(212)
+
+ax4.patch.set_facecolor('#ababab')
+ax4.patch.set_alpha(0.3)
+ax4.grid()
+
+chr10_Numt_new = chr10_AMel.copy()
+chr10_Numt_new['Graphtyper'] = 'No call'
+chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "1/1",'Graphtyper'] = 'HAv3.1'
+chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "0/0",'Graphtyper'] = 'AMelMel1.1'
+
+chr10_Numt_new = chr10_Numt_new[['Sample','Graphtyper']].set_index('Sample')
+ratios_chr10_df_idx = ratios_chr10_df.set_index('Sample')
+ratios_chr10_df_graphtyper = ratios_chr10_df_idx.join(chr10_Numt_new)
+
+ratios_chr10_df_graphtyper['Genome'] = 'Unknown'
+ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 0,'Genome'] = 'HAv3.1'
+ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 1,'Genome'] = 'AMelMel1.1'
+ratios_chr10_df_graphtyper
+
+import seaborn as sns
+sns.swarmplot(x="Graphtyper", y="Ratio", data=ratios_chr10_df_graphtyper, order=['AMelMel1.1','HAv3.1','No call'],
+             hue="Subspecies", palette = ['green','yellow','black'], size=5.5)
+
+plt.xlabel("Reference allele call by Graphtyper: NUMT_Chr10", fontsize=16)
+plt.ylabel("Numt / flanking sequencing depth ratio", fontsize=14)
+plt.tick_params(axis='both', which='major', labelsize=14)
+
+fig.savefig("/Users/avignal/Documents/Articles/2019_PacificBee/Calling_NUMTs_Subspecies.pdf")
+
+```
+
+
+![png](output_19_0.png)
+
+
+
+```python
+"""Plot the effect of sequencing depth on call rate"""
+
+#ratios_chr2_df_colors = ratios_chr2_df.copy()
+#ratios_chr2_df['Color'] = ''
+#ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^CAU'),'Color'] = 'green'
+#ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^OUE'),'Color'] = 'black'
+#ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^ITA'),'Color'] = 'yellow'
+#ratios_chr2_df
+
+
+# Make list of samples, to use as column headers (insert headers 'Chrom' and 'Pos')
+samples_list = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/Samples.list', sep = "\n", header = None)
+samples_list = list(samples_list.loc[:,0])
+samples_to_genotype = samples_list[1:len(samples_list)] # The first sample Ab-PacBio removed, as it is the sample used for AMelMel
+samples_list.insert(0, 'Pos')
+samples_list.insert(0, 'Chrom')
+
+
+# Make figure space for plotting
+fig = plt.figure(figsize=(12,12))
+ax = fig.add_subplot(111)
+ax.spines['top'].set_color('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['left'].set_color('none')
+ax.spines['right'].set_color('none')
+ax.tick_params(top=False, bottom=False, left=False, right=False,labelbottom=False, labeltop=False, labelleft=False, labelright=False)
+ax.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
+ax.axis('off')
+
+##### PLOT 1
+
+df_AMelMel_NUMT_LG2_new = df_AMelMel_NUMT_LG2.copy()
+df_AMelMel_NUMT_LG2_new.columns = samples_list
+ratios_chr2 = []
+for i in samples_to_genotype:
+    flanking = df_AMelMel_NUMT_LG2_new[(df_AMelMel_NUMT_LG2_new.Pos < 12212275) | (df_AMelMel_NUMT_LG2_new.Pos > 12213020)][i]#.mean()
+    insert = df_AMelMel_NUMT_LG2_new[(df_AMelMel_NUMT_LG2_new.Pos >= 12212275) & (df_AMelMel_NUMT_LG2_new.Pos <= 12213020)][i]
+    flanking_mean = flanking.mean()
+    insert_mean = insert.mean()
+    ratio = insert_mean / flanking_mean
+    ratios_chr2.append([i,flanking_mean, insert_mean, ratio])
+ratios_chr2_df = pd.DataFrame(ratios_chr2, columns=['Sample', 'Flanking', 'Insert','Ratio'])
+ratios_chr2_df['Chromosome'] = 2
+ratios_chr2_df['Color'] = ''
+ratios_chr2_df['Subspecies'] = ''
+
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^CAU'),'Color'] = 'green'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^CAU'),'Subspecies'] = 'A. m. caucasia'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^OUE'),'Color'] = 'black'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^OUE'),'Subspecies'] = 'A. m. mellifera'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^ITA'),'Color'] = 'yellow'
+ratios_chr2_df.at[ratios_chr2_df.Sample.str.contains('^ITA'),'Subspecies'] = 'A. m. ligustica'
+ratios_chr2_df
+
+kmeans = KMeans(n_clusters=2).fit(np.array(ratios_chr2_df['Ratio']).reshape(-1, 1))
+centroids = kmeans.cluster_centers_
+ratios_chr2_df['Genotype'] = kmeans.labels_.tolist()
+
+ax2 = fig.add_subplot(211)
+
+ax2.patch.set_facecolor('#ababab')
+ax2.patch.set_alpha(0.3)
+ax2.grid()
+
+chr2_Numt_new = chr2_Numt.copy()
+chr2_Numt_new['Graphtyper'] = 'No call'
+chr2_Numt_new.loc[chr2_Numt_new.NUMT == "1/1",'Graphtyper'] = 'HAv3.1'
+chr2_Numt_new.loc[chr2_Numt_new.NUMT == "0/0",'Graphtyper'] = 'AMelMel1.1'
+
+chr2_Numt_new = chr2_Numt_new[['Sample','Graphtyper']].set_index('Sample')
+ratios_chr2_df_idx = ratios_chr2_df.set_index('Sample')
+ratios_chr2_df_graphtyper = ratios_chr2_df_idx.join(chr2_Numt_new)
+ratios_chr2_df_graphtyper
+
+ratios_chr2_df_graphtyper['Genome'] = 'Unknown'
+ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 1,'Genome'] = 'HAv3.1'
+ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 0,'Genome'] = 'AMelMel1.1'
+ratios_chr2_df_graphtyper
+
+sns.swarmplot(x="Graphtyper", y="Flanking", data=ratios_chr2_df_graphtyper, order=['AMelMel1.1','HAv3.1','No call'],
+             hue="Subspecies", palette = ['green','yellow','black'], size=5.5)
+plt.xlabel("Reference allele call by Graphtyper: NUMT_Chr2", fontsize=16)
+plt.ylabel("Sequencing depth in flanking", fontsize=14)
+plt.tick_params(axis='both', which='major', labelsize=14)
+
+##### PLOT 2
+
+df_HAv3_NUMT_LG10_new = df_HAv3_NUMT_LG10.copy()
+df_HAv3_NUMT_LG10_new.columns = samples_list
+ratios_chr10 = []
+for i in samples_to_genotype:
+    flanking = df_HAv3_NUMT_LG10_new[(df_HAv3_NUMT_LG10_new.Pos < 670675) | (df_HAv3_NUMT_LG10_new.Pos > 671251)][i]#.mean()
+    insert = df_HAv3_NUMT_LG10_new[(df_HAv3_NUMT_LG10_new.Pos >= 670675) & (df_HAv3_NUMT_LG10_new.Pos <= 671251)][i]
+    flanking_mean = flanking.mean() # / len(flanking)
+    insert_mean = insert.mean() # / len(insert)
+    ratio = insert_mean / flanking_mean
+    ratios_chr10.append([i,flanking_mean, insert_mean, ratio])
+ratios_chr10_df = pd.DataFrame(ratios_chr10, columns=['Sample', 'Flanking', 'Insert','Ratio'])
+ratios_chr10_df['Chromosome'] = 10
+ratios_chr10_df['Color'] = ''
+ratios_chr10_df['Subspecies'] = ''
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^CAU'),'Color'] = 'green'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^CAU'),'Subspecies'] = 'A. m. caucasia'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^OUE'),'Color'] = 'black'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^OUE'),'Subspecies'] = 'A. m. mellifera'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^ITA'),'Color'] = 'yellow'
+ratios_chr10_df.at[ratios_chr10_df.Sample.str.contains('^ITA'),'Subspecies'] = 'A. m. ligustica'
+ratios_chr10_df
+
+kmeans = KMeans(n_clusters=2).fit(np.array(ratios_chr10_df['Ratio']).reshape(-1, 1))
+centroids = kmeans.cluster_centers_
+ratios_chr10_df['Genotype'] = kmeans.labels_.tolist()
+
+ax4 = fig.add_subplot(212)
+
+ax4.patch.set_facecolor('#ababab')
+ax4.patch.set_alpha(0.3)
+ax4.grid()
+
+chr10_Numt_new = chr10_AMel.copy()
+chr10_Numt_new['Graphtyper'] = 'No call'
+chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "1/1",'Graphtyper'] = 'HAv3.1'
+chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "0/0",'Graphtyper'] = 'AMelMel1.1'
+
+chr10_Numt_new = chr10_Numt_new[['Sample','Graphtyper']].set_index('Sample')
+ratios_chr10_df_idx = ratios_chr10_df.set_index('Sample')
+ratios_chr10_df_graphtyper = ratios_chr10_df_idx.join(chr10_Numt_new)
+
+ratios_chr10_df_graphtyper['Genome'] = 'Unknown'
+ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 0,'Genome'] = 'HAv3.1'
+ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 1,'Genome'] = 'AMelMel1.1'
+ratios_chr10_df_graphtyper
+
+import seaborn as sns
+sns.swarmplot(x="Graphtyper", y="Flanking", data=ratios_chr10_df_graphtyper, order=['AMelMel1.1','HAv3.1','No call'],
+             hue="Subspecies", palette = ['green','yellow','black'], size=5.5)
+
+plt.xlabel("Reference allele call by Graphtyper: NUMT_Chr10", fontsize=16)
+plt.ylabel("Sequencing depth in flanking", fontsize=14)
+plt.tick_params(axis='both', which='major', labelsize=14)
+
+fig.savefig("/Users/avignal/Documents/Articles/2019_PacificBee/Calling_NUMTs_Subspecies_Depth.pdf")
+
+```
+
+
+![png](output_20_0.png)
+
+
+
+```python
+"""Sample with the lowest sequencing depth"""
+ratios_chr2_df_graphtyper.Flanking.min()
+
+```
+
+
+
+
+    2.8952905811623246
+
+
+
+
+```python
+"""Plot the sequencing depth ratio as a function of sequencing depth
+and colour as function of assignment to the two groups of sequencing depth ratios""" 
+
+# Make list of samples, to use as column headers (insert headers 'Chrom' and 'Pos')
+samples_list = pd.read_csv('/Users/avignal/GenotoulWork/DepthChr3Inverstion/Samples.list', sep = "\n", header = None)
+samples_list = list(samples_list.loc[:,0])
+samples_to_genotype = samples_list[1:len(samples_list)] # The first sample Ab-PacBio removed, as it is the sample used for AMelMel
+samples_list.insert(0, 'Pos')
+samples_list.insert(0, 'Chrom')
+
+
+# Make figure space for plotting
+fig = plt.figure(figsize=(6,7))
+ax = fig.add_subplot(111)
+ax.spines['top'].set_color('none')
+ax.spines['bottom'].set_color('none')
+ax.spines['left'].set_color('none')
+ax.spines['right'].set_color('none')
+ax.tick_params(top=False, bottom=False, left=False, right=False,labelbottom=False, labeltop=False, labelleft=False, labelright=False)
+ax.tick_params(labelcolor='w', top=False, bottom=False, left=False, right=False)
+ax.axis('off')
+
+##### PLOT 1
+
+ax1 = fig.add_subplot(211)
 
 ax1.patch.set_facecolor('#ababab')
 ax1.patch.set_alpha(0.3)
@@ -747,36 +1122,9 @@ ax1.set(xlabel="Sequencing depth on AMelMel1.1: NUMT_Chr2", ylabel="Numt / flank
 
 ratios_chr2_df['Genotype'] = kmeans.labels_.tolist()
 
-##### PLOT 2
-
-ax2 = fig.add_subplot(222)
-
-ax2.patch.set_facecolor('#ababab')
-ax2.patch.set_alpha(0.3)
-ax2.grid()
-
-chr2_Numt_new = chr2_Numt.copy()
-chr2_Numt_new['Graphtyper'] = 'No call'
-chr2_Numt_new.loc[chr2_Numt_new.NUMT == "1/1",'Graphtyper'] = 'HAv3.1'
-chr2_Numt_new.loc[chr2_Numt_new.NUMT == "0/0",'Graphtyper'] = 'AMelMel1.1'
-
-chr2_Numt_new = chr2_Numt_new[['Sample','Graphtyper']].set_index('Sample')
-ratios_chr2_df_idx = ratios_chr2_df.set_index('Sample')
-ratios_chr2_df_graphtyper = ratios_chr2_df_idx.join(chr2_Numt_new)
-ratios_chr2_df_graphtyper
-
-ratios_chr2_df_graphtyper['Genome'] = 'Unknown'
-ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 1,'Genome'] = 'HAv3.1'
-ratios_chr2_df_graphtyper.loc[ratios_chr2_df_graphtyper.Genotype == 0,'Genome'] = 'AMelMel1.1'
-ratios_chr2_df_graphtyper
-
-sns.stripplot(x="Graphtyper", y="Ratio", data=ratios_chr2_df_graphtyper)
-plt.xlabel("Allele call by Graphtyper: NUMT_Chr2")
-plt.ylabel("Numt / flanking depth ratio")
-
 ##### PLOT 3
 
-ax3 = fig.add_subplot(223)
+ax3 = fig.add_subplot(212)
 
 ax3.patch.set_facecolor('#ababab')
 ax3.patch.set_alpha(0.3)
@@ -792,55 +1140,23 @@ for i in samples_to_genotype:
     insert_mean = insert.mean() # / len(insert)
     ratio = insert_mean / flanking_mean
     ratios_chr10.append([i,flanking_mean, insert_mean, ratio])
-#    print(flanking_mean, insert_mean, ratio)
 ratios_chr10_df = pd.DataFrame(ratios_chr10, columns=['Sample', 'Flanking', 'Insert','Ratio'])
 ratios_chr10_df['Chromosome'] = 10
 ratios_chr10_df
-#plt.scatter(ratios_chr10_df.Flanking, ratios_chr10_df.Ratio)
 
 kmeans = KMeans(n_clusters=2).fit(np.array(ratios_chr10_df['Ratio']).reshape(-1, 1))
 centroids = kmeans.cluster_centers_
-#print(kmeans.labels_)
-#plt.scatter(ratios_chr10_df.Flanking, ratios_chr10_df.Ratio, c= kmeans.labels_.astype(float), s=50, alpha=0.5)
 
 ax3.scatter(ratios_chr10_df.Flanking, ratios_chr10_df.Ratio, c= kmeans.labels_.astype(float), s=30, alpha=1.0)
 ax3.set(xlabel="Sequencing depth on HAv3.1: NUMT_Chr10", ylabel="Numt / flanking depth ratio")
 
 ratios_chr10_df['Genotype'] = kmeans.labels_.tolist()
 
-##### PLOT 4
-
-ax4 = fig.add_subplot(224)
-
-ax4.patch.set_facecolor('#ababab')
-ax4.patch.set_alpha(0.3)
-ax4.grid()
-
-chr10_Numt_new = chr10_AMel.copy()
-chr10_Numt_new['Graphtyper'] = 'No call'
-chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "1/1",'Graphtyper'] = 'HAv3.1'
-chr10_Numt_new.loc[chr10_Numt_new.GenotypeBk1 == "0/0",'Graphtyper'] = 'AMelMel1.1'
-
-chr10_Numt_new = chr10_Numt_new[['Sample','Graphtyper']].set_index('Sample')
-ratios_chr10_df_idx = ratios_chr10_df.set_index('Sample')
-ratios_chr10_df_graphtyper = ratios_chr10_df_idx.join(chr10_Numt_new)
-
-ratios_chr10_df_graphtyper['Genome'] = 'Unknown'
-ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 0,'Genome'] = 'HAv3.1'
-ratios_chr10_df_graphtyper.loc[ratios_chr10_df_graphtyper.Genotype == 1,'Genome'] = 'AMelMel1.1'
-ratios_chr10_df_graphtyper
-
-import seaborn as sns
-sns.stripplot(x="Graphtyper", y="Ratio", data=ratios_chr10_df_graphtyper)
-plt.xlabel("Allele call by Graphtyper: NUMT_Chr10")
-plt.ylabel("Numt / flanking depth ratio")
-
-fig.savefig("/Users/avignal/Documents/Articles/2019_PacificBee/Calling_NUMTs.pdf")
-
+fig.savefig("/Users/avignal/Documents/Articles/2019_PacificBee/Calling_NUMTs-Kmeans.pdf")
 ```
 
 
-![png](output_19_0.png)
+![png](output_22_0.png)
 
 
 ### Concatenate and make genotypes per population counts table
