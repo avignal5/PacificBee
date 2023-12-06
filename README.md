@@ -1,2 +1,2 @@
 # PacificBee
-Assembly and analysis of a black bee genome
+Assembly and analysis of an *Apis mellifera mellifera* black bee genome
